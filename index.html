@@ -438,9 +438,9 @@ function updateOutgoing() {
 }
 
 // ─── Status options ───
-const faultStatuses = ['กำลังดำเนินการ','แก้ไขแล้ว','รอชิ้นส่วน','ส่งต่อกะถัดไป'];
+const faultStatuses = ['กำลังดำเนินการ','แก้ไขชั่วคราว','รออะไหล่','ส่งต่อกะถัดไป'];
 const taskStatuses  = ['เสร็จสมบูรณ์','กำลังดำเนินการ','ยังไม่เริ่ม','ส่งต่อกะถัดไป'];
-const stockStatuses = ['เพียงพอ','ใกล้หมด','หมด / ต้องเบิก'];
+const stockStatuses = ['เพียงพอ','ใกล้หมด','หมด / แจ้งเบิก'];
 
 function statusOptions(list, id) {
   return `<select class="status-select" id="${id}">
