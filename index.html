@@ -651,7 +651,7 @@ function saveAsImage() {
   data.faults.forEach((f,i) => {
     if(!f.symptom && !f.action) return;
     const badge = {
-      'กำลังดำเนินการ':'#f39c12','แก้ไขชั่วคราว':'#27ae60',
+      'กำลังดำเนินการ':'#27ae60','แก้ไขชั่วคราว':'#f39c12',
       'รออะไหล่':'#e67e22','ส่งต่อกะถัดไป':'#e74c3c'
     }[f.status]||'#7f8c8d';
     faultRows += `
