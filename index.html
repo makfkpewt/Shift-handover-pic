@@ -5,142 +5,296 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>แบบฟอร์มส่งงานต่อกะ – วิศวกรรม</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap');
-  :root {
-    --primary: #1a3a5c; --accent: #f0a500; --bg: #f4f6f9;
-    --card: #ffffff; --border: #d0dae6; --text: #1e2a38;
-    --muted: #6b7d91; --danger: #e74c3c; --section-bg: #eaf0f8;
-    --radius: 12px; --shadow: 0 2px 12px rgba(26,58,92,0.10);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Sarabun', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; min-height: 100vh; padding-bottom: 90px; }
-  header { background: var(--primary); color: #fff; padding: 18px 20px 14px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-  header h1 { font-size: 17px; font-weight: 700; }
-  header p  { font-size: 12px; opacity: .7; margin-top: 2px; }
-  .container { padding: 14px; max-width: 600px; margin: 0 auto; }
-  .section { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 14px; overflow: hidden; }
-  .section-header { background: var(--primary); color: #fff; padding: 10px 16px; font-size: 13.5px; font-weight: 600; }
-  .section-body { padding: 14px 16px; }
-  .lbl { display: block; font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 7px; }
-  .field { margin-bottom: 14px; }
-  .btn-group { display: flex; flex-wrap: wrap; gap: 8px; }
-  .opt-btn { padding: 9px 15px; border: 2px solid var(--border); border-radius: 22px; background: var(--bg); color: var(--muted); font-family: 'Sarabun', sans-serif; font-size: 13.5px; font-weight: 500; cursor: pointer; -webkit-tap-highlight-color: transparent; line-height: 1.3; }
-  .opt-btn.on-blue  { border-color: var(--primary); background: var(--primary); color: #fff; }
-  .opt-btn.on-amber { border-color: var(--accent);  background: var(--accent);  color: #fff; }
-  .opt-btn.on-green { border-color: #27ae60; background: #27ae60; color: #fff; }
-  .stat-btn { padding: 7px 11px; border: 1.5px solid var(--border); border-radius: 18px; background: var(--bg); color: var(--muted); font-family: 'Sarabun', sans-serif; font-size: 12.5px; font-weight: 500; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-  .stat-btn.on-blue  { border-color: var(--primary); background: var(--primary); color: #fff; }
-  .stat-btn.on-green { border-color: #27ae60; background: #27ae60; color: #fff; }
-  .stat-btn.on-amber { border-color: var(--accent); background: var(--accent); color: #fff; }
-  .stat-btn.on-red   { border-color: #e74c3c; background: #e74c3c; color: #fff; }
-  .date-row { display: flex; gap: 10px; }
-  .date-col { flex: 1; text-align: center; }
-  .date-col .col-lbl { font-size: 11px; color: var(--muted); margin-bottom: 4px; font-weight: 600; text-transform: uppercase; }
-  .date-scroller { display: flex; align-items: center; gap: 4px; }
-  .arr-btn { width: 36px; height: 36px; border: 2px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--primary); font-size: 20px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; flex-shrink: 0; }
-  .date-val { flex: 1; text-align: center; font-size: 14px; font-weight: 700; padding: 8px 4px; background: #fff; border: 1.5px solid var(--border); border-radius: 8px; min-width: 40px; color: var(--text); }
-  input[type="text"], textarea { width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-family: 'Sarabun', sans-serif; font-size: 15px; color: var(--text); background: #fff; -webkit-appearance: none; }
-  input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--primary); }
-  textarea { resize: vertical; min-height: 68px; }
-  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .item-card { background: var(--section-bg); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 14px 12px 12px; margin-bottom: 10px; position: relative; }
-  .item-num { position: absolute; top: -9px; left: 12px; background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-  .del-btn { position: absolute; top: 6px; right: 8px; background: none; border: none; color: var(--danger); font-size: 18px; cursor: pointer; padding: 2px 6px; border-radius: 6px; line-height: 1; -webkit-tap-highlight-color: transparent; }
-  .add-btn { width: 100%; padding: 11px; border: 2px dashed var(--border); border-radius: 8px; background: none; color: var(--primary); font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 4px; -webkit-tap-highlight-color: transparent; }
-  .action-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 10px 14px; background: #fff; box-shadow: 0 -2px 14px rgba(0,0,0,0.13); display: flex; gap: 8px; z-index: 100; flex-wrap: wrap; }
-  .btn-share { flex: 1; min-width: 100px; padding: 13px 8px; border: none; border-radius: 10px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-  .btn-copy { background: var(--primary); color: #fff; }
-  .btn-img   { background: #e67e22; color: #fff; }
-  .toast { position: fixed; top: 75px; left: 50%; transform: translateX(-50%) translateY(-10px); background: #1e2a38; color: #fff; padding: 10px 22px; border-radius: 30px; font-size: 13.5px; opacity: 0; transition: all .3s; pointer-events: none; z-index: 200; white-space: nowrap; }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  #staff-field { display: none; }
+  @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
 
-  /* ── Image preview overlay ── */
-  #img-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.82);
-    z-index: 500;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 16px;
-    overflow-y: auto;
+  :root {
+    --primary: #1a3a5c;
+    --accent: #f0a500;
+    --bg: #f4f6f9;
+    --card: #ffffff;
+    --border: #d0dae6;
+    --text: #1e2a38;
+    --muted: #6b7d91;
+    --success: #27ae60;
+    --danger: #e74c3c;
+    --warning: #f39c12;
+    --section-bg: #eaf0f8;
+    --radius: 12px;
+    --shadow: 0 2px 12px rgba(26,58,92,0.10);
   }
-  #img-overlay.show { display: flex; }
-  #img-overlay .ov-tip {
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Sarabun', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  header {
+    background: var(--primary);
     color: #fff;
+    padding: 18px 20px 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }
+  header h1 {
+    font-size: 17px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  header p {
+    font-size: 12px;
+    opacity: 0.7;
+    margin-top: 2px;
+    padding-left: 28px;
+  }
+
+  .container { padding: 16px 14px; max-width: 600px; margin: 0 auto; }
+
+  .section {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .section-header {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 16px;
+    font-size: 13.5px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-body { padding: 14px 16px; }
+
+  label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  input[type="text"], input[type="date"], select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'Sarabun', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    background: #fff;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(26,58,92,0.1);
+  }
+  textarea { resize: vertical; min-height: 72px; }
+
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .row.full { grid-template-columns: 1fr; }
+  .field { margin-bottom: 12px; }
+
+  /* Shift toggle */
+  .shift-toggle { display: flex; gap: 10px; }
+  .shift-toggle label {
+    flex: 1; text-transform: none; letter-spacing: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 10px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--muted);
+    transition: all 0.2s;
+    background: var(--bg);
+    gap: 6px;
+    margin: 0;
+  }
+  .shift-toggle input[type="radio"] { display: none; }
+  .shift-toggle input[type="radio"]:checked + label {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: #fff;
+  }
+
+  /* Department chips */
+  .dept-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .dept-chips input[type="radio"] { display: none; }
+  .dept-chips label {
+    padding: 7px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: none;
+    letter-spacing: 0;
+    margin: 0;
+    background: var(--bg);
+  }
+  .dept-chips input[type="radio"]:checked + label {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: #fff;
+  }
+
+  /* Repeatable rows */
+  .table-rows { margin-top: 4px; }
+  .table-row {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding: 12px;
+    background: var(--section-bg);
+    border-radius: 8px;
+    position: relative;
+    border-left: 3px solid var(--accent);
+  }
+  .row-num {
+    position: absolute;
+    top: -8px;
+    left: 12px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .table-row.cols-3 { grid-template-columns: 1fr 1fr auto; }
+  .table-row.cols-4 { grid-template-columns: 1fr 1fr 1fr auto; }
+  .del-btn {
+    background: none;
+    border: none;
+    color: var(--danger);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 2px 6px;
+    align-self: end;
+    border-radius: 6px;
+    line-height: 1;
+  }
+  .del-btn:hover { background: #ffe5e5; }
+
+  .add-btn {
+    width: 100%;
+    padding: 10px;
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    background: none;
+    color: var(--primary);
     font-family: 'Sarabun', sans-serif;
     font-size: 14px;
     font-weight: 600;
-    margin-bottom: 12px;
-    text-align: center;
-    background: rgba(255,255,255,0.15);
-    padding: 10px 20px;
-    border-radius: 30px;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: all 0.2s;
   }
-  #img-overlay img { max-width: 100%; border-radius: 10px; box-shadow: 0 4px 24px rgba(0,0,0,0.5); }
-  #img-overlay .ov-close {
-    margin-top: 14px;
-    padding: 11px 36px;
-    border: none;
-    border-radius: 30px;
+  .add-btn:hover { border-color: var(--primary); background: var(--section-bg); }
+
+  /* Status badges */
+  .status-select {
+    font-size: 13px !important;
+    padding: 8px 10px !important;
+  }
+
+  /* Date display */
+  .date-display {
+    font-size: 13px;
+    color: var(--muted);
+    text-align: right;
+    margin-top: -6px;
+    margin-bottom: 10px;
+  }
+
+  /* Summary / action bar */
+  .action-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 12px 16px;
     background: #fff;
-    color: var(--primary);
+    box-shadow: 0 -2px 16px rgba(0,0,0,0.12);
+    display: flex;
+    gap: 10px;
+    z-index: 100;
+  }
+  .btn-share {
+    flex: 1;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
     font-family: 'Sarabun', sans-serif;
     font-size: 15px;
     font-weight: 700;
     cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  /* ── Summary card (rendered to image) ── */
-  #summary-card {
-    position: fixed;
-    left: -9999px;
-    top: 0;
-    width: 680px;
-    background: #f4f6f9;
-    font-family: 'Sarabun', sans-serif;
-    padding: 0 0 28px;
-  }
-  .sc-header {
-    background: #1a3a5c;
-    color: #fff;
-    padding: 20px 24px 16px;
-  }
-  .sc-header h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-  .sc-header p  { font-size: 13px; opacity: .75; }
-  .sc-meta {
-    background: #fff;
-    margin: 16px 16px 0;
-    border-radius: 10px;
-    padding: 14px 18px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 12px 28px;
-    box-shadow: 0 1px 6px rgba(26,58,92,0.08);
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
   }
-  .sc-meta-item { display: flex; flex-direction: column; }
-  .sc-meta-item .ml { font-size: 11px; font-weight: 700; color: #6b7d91; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 2px; }
-  .sc-meta-item .mv { font-size: 15px; font-weight: 600; color: #1e2a38; }
-  .sc-section { margin: 14px 16px 0; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 6px rgba(26,58,92,0.08); }
-  .sc-sec-hdr { background: #1a3a5c; color: #fff; padding: 9px 16px; font-size: 13px; font-weight: 700; }
-  .sc-row { padding: 12px 16px; border-bottom: 1px solid #e8edf4; }
-  .sc-row:last-child { border-bottom: none; }
-  .sc-row-num { display: inline-block; background: #f0a500; color: #fff; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; text-align: center; line-height: 20px; margin-right: 6px; }
-  .sc-label { font-size: 11px; font-weight: 700; color: #6b7d91; text-transform: uppercase; letter-spacing: .3px; margin-bottom: 3px; }
-  .sc-value { font-size: 14px; color: #1e2a38; }
-  .sc-badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; margin-top: 4px; }
-  .badge-green  { background: #e8f8f0; color: #27ae60; }
-  .badge-amber  { background: #fef6e4; color: #e67e22; }
-  .badge-red    { background: #fdecea; color: #e74c3c; }
-  .badge-blue   { background: #e8eef6; color: #1a3a5c; }
-  .sc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
-  .sc-grid .sc-cell { padding: 10px 16px; border-bottom: 1px solid #e8edf4; border-right: 1px solid #e8edf4; }
-  .sc-grid .sc-cell:nth-child(2n) { border-right: none; }
-  .sc-footer { margin: 14px 16px 0; text-align: center; font-size: 11px; color: #6b7d91; }
+  .btn-copy {
+    background: var(--primary);
+    color: #fff;
+  }
+  .btn-copy:active { opacity: 0.85; }
+  .btn-img {
+    background: #7c3aed;
+    color: #fff;
+  }
+  .btn-img:active { opacity: 0.85; }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: #1e2a38;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 13.5px;
+    font-weight: 500;
+    opacity: 0;
+    transition: all 0.3s;
+    pointer-events: none;
+    z-index: 200;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Small helpers */
+  .text-hint { font-size: 11.5px; color: var(--muted); margin-top: 4px; }
+  .divider { height: 1px; background: var(--border); margin: 12px 0; }
+
+  select option { font-family: 'Sarabun', sans-serif; }
 </style>
 </head>
 <body>
@@ -151,394 +305,539 @@
 </header>
 
 <div class="container">
+
+  <!-- ─── Section 1: ข้อมูลทั่วไป ─── -->
   <div class="section">
     <div class="section-header">📋 1. ข้อมูลทั่วไป (General Information)</div>
     <div class="section-body">
+
       <div class="field">
-        <span class="lbl">วันที่ (Date)</span>
-        <div class="date-row">
-          <div class="date-col">
-            <div class="col-lbl">วัน</div>
-            <div class="date-scroller">
-              <button class="arr-btn" onclick="adj('d',-1)">‹</button>
-              <div class="date-val" id="dv">1</div>
-              <button class="arr-btn" onclick="adj('d',1)">›</button>
-            </div>
-          </div>
-          <div class="date-col">
-            <div class="col-lbl">เดือน</div>
-            <div class="date-scroller">
-              <button class="arr-btn" onclick="adj('m',-1)">‹</button>
-              <div class="date-val" id="mv">ม.ค.</div>
-              <button class="arr-btn" onclick="adj('m',1)">›</button>
-            </div>
-          </div>
-          <div class="date-col">
-            <div class="col-lbl">ปี พ.ศ.</div>
-            <div class="date-scroller">
-              <button class="arr-btn" onclick="adj('y',-1)">‹</button>
-              <div class="date-val" id="yv" style="font-size:12px">2568</div>
-              <button class="arr-btn" onclick="adj('y',1)">›</button>
-            </div>
-          </div>
+        <label>วันที่ (Date)</label>
+        <input type="date" id="date" />
+      </div>
+
+      <div class="field">
+        <label>กะ (Shift)</label>
+        <div class="shift-toggle">
+          <input type="radio" name="shift" id="shift-day" value="กลางวัน">
+          <label for="shift-day">☀️ กลางวัน</label>
+          <input type="radio" name="shift" id="shift-night" value="กลางคืน">
+          <label for="shift-night">🌙 กลางคืน</label>
         </div>
       </div>
+
       <div class="field">
-        <span class="lbl">กะ (Shift)</span>
-        <div class="btn-group">
-          <button class="opt-btn" id="s-day"   onclick="pickShift('กลางวัน',this)">☀️ กลางวัน</button>
-          <button class="opt-btn" id="s-night" onclick="pickShift('กลางคืน',this)">🌙 กลางคืน</button>
+        <label>แผนก / หน่วยงาน (Dept)</label>
+        <div class="dept-chips">
+          <input type="radio" name="dept" id="d1" value="ไฟฟ้า" onchange="updateOutgoing()">
+          <label for="d1">⚡ ไฟฟ้า</label>
+          <input type="radio" name="dept" id="d2" value="เครื่องกลส่วนกลาง" onchange="updateOutgoing()">
+          <label for="d2">🔧 เครื่องกลส่วนกลาง</label>
+          <input type="radio" name="dept" id="d3" value="เครื่องกล(สร้างโครง)" onchange="updateOutgoing()">
+          <label for="d3">🏗️ เครื่องกล(สร้างโครง)</label>
+          <input type="radio" name="dept" id="d4" value="เครื่องกล(เตานึ่งยาง)" onchange="updateOutgoing()">
+          <label for="d4">🏭 เครื่องกล(เตานึ่งยาง)</label>
+          <input type="radio" name="dept" id="d5" value="Facility" onchange="updateOutgoing()">
+          <label for="d5">🏢 Facility</label>
         </div>
       </div>
+
       <div class="field">
-        <span class="lbl">แผนก / หน่วยงาน (Dept)</span>
-        <div class="btn-group" id="dept-grp">
-          <button class="opt-btn" onclick="pickDept('ไฟฟ้า',this)">⚡ ไฟฟ้า</button>
-          <button class="opt-btn" onclick="pickDept('เครื่องกลส่วนกลาง',this)">🔧 เครื่องกลส่วนกลาง</button>
-          <button class="opt-btn" onclick="pickDept('เครื่องกล(สร้างโครง)',this)">🏗️ สร้างโครง</button>
-          <button class="opt-btn" onclick="pickDept('เครื่องกล(เตานึ่งยาง)',this)">🏭 เตานึ่งยาง</button>
-          <button class="opt-btn" onclick="pickDept('Facility',this)">🏢 Facility</button>
-        </div>
+        <label>ผู้ส่งกะ (Outgoing Technician)</label>
+        <select id="outgoing">
+          <option value="">-- เลือกแผนกก่อน --</option>
+        </select>
       </div>
-      <div class="field" id="staff-field">
-        <span class="lbl">ผู้ส่งกะ (Outgoing Technician)</span>
-        <div class="btn-group" id="staff-grp"></div>
-      </div>
+
     </div>
   </div>
 
+  <!-- ─── Section 2: สรุปงานส่งต่อกะ ─── -->
   <div class="section">
     <div class="section-header">📝 2. สรุปงานส่งต่อกะ (Handover Summary)</div>
     <div class="section-body">
-      <div id="faults-container"></div>
-      <button class="add-btn" onclick="addFault()">+ เพิ่มรายการ</button>
+      <div class="table-rows" id="faults-container"></div>
+      <button class="add-btn" onclick="addFaultRow()">+ เพิ่มรายการ</button>
     </div>
   </div>
 
+  <!-- ─── Section 3: งานกะกลางคืน ─── -->
   <div class="section">
     <div class="section-header">🌙 3. งานที่ได้รับมอบหมาย (Work Assignments)</div>
     <div class="section-body">
-      <div id="tasks-container"></div>
-      <button class="add-btn" onclick="addTask()">+ เพิ่มรายการ</button>
+      <div class="table-rows" id="tasks-container"></div>
+      <button class="add-btn" onclick="addTaskRow()">+ เพิ่มรายการ</button>
     </div>
   </div>
 
+  <!-- ─── Section 4: อะไหล่ ─── -->
   <div class="section">
     <div class="section-header">🔩 4. อะไหล่ที่ใช้ / ต้องเบิก (Spare Parts)</div>
     <div class="section-body">
-      <div id="parts-container"></div>
-      <button class="add-btn" onclick="addPart()">+ เพิ่มรายการ</button>
+      <div class="table-rows" id="parts-container"></div>
+      <button class="add-btn" onclick="addPartRow()">+ เพิ่มรายการ</button>
     </div>
   </div>
+
   <div style="height:20px"></div>
-</div>
 
+</div><!-- /container -->
+
+<!-- Action bar -->
 <div class="action-bar">
-  <button class="btn-share btn-copy" onclick="doCopy()">📋 คัดลอก</button>
-  <button class="btn-share btn-img"  onclick="doImage()">🖼️ บันทึกรูป</button>
+  <button class="btn-share btn-copy" onclick="copyToClipboard()">📋 คัดลอกข้อความ</button>
+  <button class="btn-share btn-img" onclick="saveAsImage()">🖼️ บันทึกรูป</button>
 </div>
 
-<!-- Image preview overlay -->
-<div id="img-overlay">
-  <div class="ov-tip">📌 กดค้างที่รูป → "บันทึกภาพ" เพื่อบันทึก</div>
-  <img id="preview-img" src="" alt="preview" />
-  <button class="ov-close" onclick="closeOverlay()">✕ ปิด</button>
-</div>
-
-<!-- Hidden summary card for html2canvas -->
-<div id="summary-card"></div>
-
+<!-- Toast -->
 <div class="toast" id="toast"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-var TH_MON = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-var now = new Date();
-var DS = { d: now.getDate(), m: now.getMonth()+1, y: now.getFullYear()+543 };
+// ─── Set today's date ───
+document.getElementById('date').value = new Date().toISOString().split('T')[0];
 
-function renderDate() {
-  document.getElementById('dv').textContent = DS.d;
-  document.getElementById('mv').textContent = TH_MON[DS.m-1];
-  document.getElementById('yv').textContent = DS.y;
-}
-function adj(p,v) {
-  if(p==='d'){DS.d+=v;if(DS.d<1)DS.d=31;if(DS.d>31)DS.d=1;}
-  if(p==='m'){DS.m+=v;if(DS.m<1)DS.m=12;if(DS.m>12)DS.m=1;}
-  if(p==='y'){DS.y+=v;}
-  renderDate();
-}
-renderDate();
-
-var DEPT_STAFF = {
-  'ไฟฟ้า':['นายสัจจาพันธ์ ทุนโคกกรวด','นายภูมิพิพัฒน์ มีคุณ','นายสำราญ สายเพ็ชร','นายเจนณรงค์ มากประยูร','นายกำพล ณ น่าน','นายรัฏฐกรณ์ ลมดี','นายวันชัย เคนรัง'],
-  'เครื่องกลส่วนกลาง':['นายอุรุพงศ์ ขาวเขียว','นายวีระศักดิ์ รุ่งเรือง','นายวัฒนา เจริญทอง','นายพีระวุฒิ สัพท์เสนาะ','นายธนสาร หลักชัย','นายศราวุฒิ พึ่งเกษม','นายพรชัย เพ็งศรี','เจษฎา ดวงมาศ'],
-  'เครื่องกล(สร้างโครง)':['นายนิโรจน์ พันธ์ศรี','นายณัฏฐนันท์ โพธิขวัญ','นายทศนัย พันธุบุศย์','นายประมวลทรัพย์ แซ่อุ้ย','นายประจวบ โยนอก','นายจันทกร โคตา','นายนที เปียเจีย','นายสายฝน พงษ์ภักดี','นายรณธิชัย ภาคภูมิ','นายอาณัติ เขตขุม','นายพรชัย พินพงษ์','นายสลักชัย ภู่สวัสดิ์','นายจักรกฤษ พิมแพง','นายณภัทร ศรีพรมมา','นายจักรินทร์ นามประยูร','นายวิเชียร วิหคทอง','นางสาวดวงพร อินทร์พิทักษ์'],
-  'เครื่องกล(เตานึ่งยาง)':['นายนิโรจน์ พันธ์ศรี','นายณัฏฐนันท์ โพธิขวัญ','นายทศนัย พันธุบุศย์','นายประมวลทรัพย์ แซ่อุ้ย','นายประจวบ โยนอก','นายจันทกร โคตา','นายนที เปียเจีย','นายสายฝน พงษ์ภักดี','นายรณธิชัย ภาคภูมิ','นายอาณัติ เขตขุม','นายพรชัย พินพงษ์','นายสลักชัย ภู่สวัสดิ์','นายจักรกฤษ พิมแพง','นายณภัทร ศรีพรมมา','นายจักรินทร์ นามประยูร','นายวิเชียร วิหคทอง','นางสาวดวงพร อินทร์พิทักษ์'],
-  'Facility':['นายสามารถ เสริมจบก','นายสาโรจน์ คำผุด','นายเกียงไกร ทองแปรง','นายจักรกฤษณ์ เนาวนิตย์','นายราเมศร นาคาพงษ์','นายศักดา ถนอมวงษ์','Mr.Kim Koeurn']
+// ─── Staff per department ───
+const deptStaff = {
+  'ไฟฟ้า': [
+    'นายเจนณรงค์ มากประยูร','นายสัจจาพันธ์ ทุนโคกกรวด','นายภูมิพิพัฒน์ มีคุณ',
+    'นายสำราญ สายเพ็ชร','นายวันชัย เคนรัง',
+    'นายกำพล ณ น่าน','นายรัฏฐกรณ์ ลมดี'
+  ],
+  'เครื่องกลส่วนกลาง': [
+    'นายอุรุพงศ์ ขาวเขียว','นายวีระศักดิ์ รุ่งเรือง','นายวัฒนา เจริญทอง',
+    'นายพีระวุฒิ สัพท์เสนาะ','นายศราวุฒิ พึ่งเกษม',
+    'นายพรชัย เพ็งศรี','เจษฎา ดวงมาศ'
+  ],
+  'เครื่องกล(สร้างโครง)': [
+    'นายนิโรจน์ พันธ์ศรี','นายณัฏฐนันท์ โพธิขวัญ',
+    'นายจันทกร โคตา',
+    'นายนที เปียเจีย','นายสายฝน พงษ์ภักดี','นายรณธิชัย ภาคภูมิ',
+    'นายอาณัติ เขตขุม','นายณภัทร ศรีพรมมา','นายจักรินทร์ นามประยูร',
+    'นายวิเชียร วิหคทอง','นางสาวดวงพร อินทร์พิทักษ์'
+  ],
+  'เครื่องกล(เตานึ่งยาง)': [
+    'นายพรชัย พินพงษ์','นายทศนัย พันธุบุศย์',
+    'นายประมวลทรัพย์ แซ่อุ้ย','นายประจวบ โยนอก',
+    'นายสลักชัย ภู่สวัสดิ์', 'นายจักรกฤษ พิมแพง'
+  ],
+  'Facility': [
+    'นายสาโรจน์ คำผุด','นายสามารถ เสริมจบก','นายเกียงไกร ทองแปรง',
+    'นายจักรกฤษณ์ เนาวนิตย์','นายราเมศร นาคาพงษ์','นายศักดา ถนอมวงษ์','Mr.Kim Koeurn'
+  ]
 };
 
-var selShift='', selDept='', selStaff='';
-
-function pickShift(v,btn){
-  selShift=v;
-  document.querySelectorAll('#s-day,#s-night').forEach(function(b){b.classList.remove('on-blue');});
-  btn.classList.add('on-blue');
-}
-function pickDept(v,btn){
-  selDept=v; selStaff='';
-  document.querySelectorAll('#dept-grp .opt-btn').forEach(function(b){b.classList.remove('on-amber');});
-  btn.classList.add('on-amber');
-  var grp=document.getElementById('staff-grp');
-  grp.innerHTML='';
-  (DEPT_STAFF[v]||[]).forEach(function(name){
-    var b=document.createElement('button');
-    b.className='opt-btn'; b.textContent=name;
-    b.onclick=function(){pickStaff(name,b);};
-    grp.appendChild(b);
-  });
-  document.getElementById('staff-field').style.display='block';
-}
-function pickStaff(name,btn){
-  selStaff=name;
-  document.querySelectorAll('#staff-grp .opt-btn').forEach(function(b){b.classList.remove('on-green');});
-  btn.classList.add('on-green');
-}
-
-var FAULT_STAT=[{label:'กำลังดำเนินการ',cls:'on-amber'},{label:'แก้ไขแล้ว',cls:'on-green'},{label:'รอชิ้นส่วน',cls:'on-red'},{label:'ส่งต่อกะถัดไป',cls:'on-blue'}];
-var TASK_STAT=[{label:'เสร็จสมบูรณ์',cls:'on-green'},{label:'กำลังดำเนินการ',cls:'on-amber'},{label:'ยังไม่เริ่ม',cls:'on-blue'},{label:'ส่งต่อกะถัดไป',cls:'on-red'}];
-var STOCK_STAT=[{label:'เพียงพอ',cls:'on-green'},{label:'ใกล้หมด',cls:'on-amber'},{label:'หมด/ต้องเบิก',cls:'on-red'}];
-
-function makeStatGroup(list,groupId){
-  var h='<div class="btn-group" id="'+groupId+'">';
-  list.forEach(function(s,i){
-    var a=i===0?' '+s.cls:'';
-    h+='<button class="stat-btn'+a+'" data-cls="'+s.cls+'" onclick="pickStat(\''+groupId+'\',this)">'+s.label+'</button>';
-  });
-  return h+'</div>';
-}
-function pickStat(gid,btn){
-  var cls=btn.getAttribute('data-cls');
-  document.querySelectorAll('#'+gid+' .stat-btn').forEach(function(b){b.classList.remove('on-blue','on-green','on-amber','on-red');});
-  btn.classList.add(cls);
-}
-function getStatVal(gid){
-  var a=document.querySelector('#'+gid+' .stat-btn.on-blue,#'+gid+' .stat-btn.on-green,#'+gid+' .stat-btn.on-amber,#'+gid+' .stat-btn.on-red');
-  return a?a.textContent:'';
-}
-function getStatCls(gid){
-  var a=document.querySelector('#'+gid+' .stat-btn.on-blue,#'+gid+' .stat-btn.on-green,#'+gid+' .stat-btn.on-amber,#'+gid+' .stat-btn.on-red');
-  if(!a)return'badge-blue';
-  var c=a.getAttribute('data-cls');
-  if(c==='on-green')return'badge-green';
-  if(c==='on-amber')return'badge-amber';
-  if(c==='on-red')return'badge-red';
-  return'badge-blue';
-}
-
-var faultN=0, taskN=0, partN=0;
-
-function addFault(){
-  faultN++;var n=faultN;
-  var d=document.createElement('div');
-  d.className='item-card';d.id='fault-'+n;
-  d.innerHTML='<div class="item-num">'+n+'</div>'+
-    '<button class="del-btn" onclick="this.closest(\'.item-card\').remove()">✕</button>'+
-    '<div style="margin-top:10px">'+
-      '<div class="field"><span class="lbl">อาการ / ความผิดปกติ</span><textarea id="fs-'+n+'" placeholder="อธิบายอาการ..."></textarea></div>'+
-      '<div class="field"><span class="lbl">การแก้ไขเบื้องต้น</span><textarea id="fa-'+n+'" placeholder="สิ่งที่ได้ทำ..."></textarea></div>'+
-      '<div class="field"><span class="lbl">สถานะ</span>'+makeStatGroup(FAULT_STAT,'fsg-'+n)+'</div>'+
-    '</div>';
-  document.getElementById('faults-container').appendChild(d);
-}
-function addTask(){
-  taskN++;var n=taskN;
-  var d=document.createElement('div');
-  d.className='item-card';d.id='task-'+n;
-  d.innerHTML='<div class="item-num">'+n+'</div>'+
-    '<button class="del-btn" onclick="this.closest(\'.item-card\').remove()">✕</button>'+
-    '<div style="margin-top:10px">'+
-      '<div class="field"><span class="lbl">รายละเอียดงาน</span><textarea id="td-'+n+'" placeholder="งานที่มอบหมาย..."></textarea></div>'+
-      '<div class="field"><span class="lbl">ผลการดำเนินงาน</span><textarea id="tr-'+n+'" placeholder="ผลที่ได้..."></textarea></div>'+
-      '<div class="field"><span class="lbl">สถานะ</span>'+makeStatGroup(TASK_STAT,'tsg-'+n)+'</div>'+
-    '</div>';
-  document.getElementById('tasks-container').appendChild(d);
-}
-function addPart(){
-  partN++;var n=partN;
-  var d=document.createElement('div');
-  d.className='item-card';d.id='part-'+n;
-  d.innerHTML='<div class="item-num">'+n+'</div>'+
-    '<button class="del-btn" onclick="this.closest(\'.item-card\').remove()">✕</button>'+
-    '<div style="margin-top:10px">'+
-      '<div class="row2" style="margin-bottom:10px">'+
-        '<div class="field" style="margin:0"><span class="lbl">ชื่ออะไหล่</span><input type="text" id="pn-'+n+'" placeholder="ชื่ออะไหล่..."/></div>'+
-        '<div class="field" style="margin:0"><span class="lbl">Part No.</span><input type="text" id="pc-'+n+'" placeholder="รหัส..."/></div>'+
-      '</div>'+
-      '<div class="field"><span class="lbl">จำนวนที่ใช้</span><input type="text" id="pu-'+n+'" placeholder="0"/></div>'+
-      '<div class="field"><span class="lbl">สถานะสต็อก</span>'+makeStatGroup(STOCK_STAT,'psg-'+n)+'</div>'+
-    '</div>';
-  document.getElementById('parts-container').appendChild(d);
-}
-
-addFault(); addTask(); addPart();
-
-/* ── Build summary card HTML for image ── */
-function buildCard() {
-  var dateStr = DS.d + ' ' + TH_MON[DS.m-1] + ' ' + DS.y;
-  var html = '';
-  html += '<div class="sc-header">';
-  html += '<h2>⚙️ ใบส่งงานต่อกะ – วิศวกรรม</h2>';
-  html += '<p>Engineering Shift Handover Report</p>';
-  html += '</div>';
-
-  html += '<div class="sc-meta">';
-  html += '<div class="sc-meta-item"><span class="ml">📅 วันที่</span><span class="mv">'+dateStr+'</span></div>';
-  html += '<div class="sc-meta-item"><span class="ml">🕐 กะ</span><span class="mv">'+(selShift||'—')+'</span></div>';
-  html += '<div class="sc-meta-item"><span class="ml">🏭 แผนก</span><span class="mv">'+(selDept||'—')+'</span></div>';
-  html += '<div class="sc-meta-item"><span class="ml">👤 ผู้ส่งกะ</span><span class="mv">'+(selStaff||'—')+'</span></div>';
-  html += '</div>';
-
-  /* faults */
-  var fc = document.querySelectorAll('[id^="fault-"]');
-  var fRows = [];
-  fc.forEach(function(r){
-    var n=r.id.split('-')[1];
-    var sy=((document.getElementById('fs-'+n)||{}).value||'').trim();
-    var ac=((document.getElementById('fa-'+n)||{}).value||'').trim();
-    if(sy||ac) fRows.push({sy:sy,ac:ac,st:getStatVal('fsg-'+n),cls:getStatCls('fsg-'+n)});
-  });
-  if(fRows.length){
-    html+='<div class="sc-section"><div class="sc-sec-hdr">📝 สรุปงานส่งต่อกะ</div>';
-    fRows.forEach(function(r,i){
-      html+='<div class="sc-row">';
-      html+='<span class="sc-row-num">'+(i+1)+'</span>';
-      html+='<div style="margin-top:6px"><div class="sc-label">อาการ / ความผิดปกติ</div><div class="sc-value">'+(r.sy||'—')+'</div></div>';
-      html+='<div style="margin-top:6px"><div class="sc-label">การแก้ไขเบื้องต้น</div><div class="sc-value">'+(r.ac||'—')+'</div></div>';
-      html+='<div style="margin-top:6px"><span class="sc-badge '+r.cls+'">'+r.st+'</span></div>';
-      html+='</div>';
+function updateOutgoing() {
+  const dept = document.querySelector('input[name="dept"]:checked')?.value;
+  const sel = document.getElementById('outgoing');
+  sel.innerHTML = '<option value="">-- เลือกผู้ส่งกะ --</option>';
+  if (dept && deptStaff[dept]) {
+    deptStaff[dept].forEach(name => {
+      const opt = document.createElement('option');
+      opt.textContent = name;
+      sel.appendChild(opt);
     });
-    html+='</div>';
+  }
+}
+
+// ─── Status options ───
+const faultStatuses = ['กำลังดำเนินการ','แก้ไขแล้ว','รอชิ้นส่วน','ส่งต่อกะถัดไป'];
+const taskStatuses  = ['เสร็จสมบูรณ์','กำลังดำเนินการ','ยังไม่เริ่ม','ส่งต่อกะถัดไป'];
+const stockStatuses = ['เพียงพอ','ใกล้หมด','หมด / ต้องเบิก'];
+
+function statusOptions(list, id) {
+  return `<select class="status-select" id="${id}">
+    ${list.map(s => `<option>${s}</option>`).join('')}
+  </select>`;
+}
+
+// ─── FAULTS ───
+let faultCount = 0;
+function addFaultRow() {
+  faultCount++;
+  const n = faultCount;
+  const div = document.createElement('div');
+  div.className = 'table-row';
+  div.id = `fault-${n}`;
+  div.innerHTML = `
+    <div class="row-num">${n}</div>
+    <div class="field" style="margin:0;margin-top:8px">
+      <label>อาการ / ความผิดปกติ</label>
+      <textarea id="f-symptom-${n}" placeholder="อธิบายอาการ..." style="min-height:60px"></textarea>
+    </div>
+    <div class="field" style="margin:0">
+      <label>การแก้ไขเบื้องต้น</label>
+      <textarea id="f-action-${n}" placeholder="สิ่งที่ได้ทำ..." style="min-height:60px"></textarea>
+    </div>
+    <div class="field" style="margin:0">
+      <label>สถานะ</label>
+      ${statusOptions(faultStatuses, `f-status-${n}`)}
+    </div>
+    <button class="del-btn" onclick="this.parentElement.remove()">✕</button>`;
+  document.getElementById('faults-container').appendChild(div);
+}
+
+// ─── TASKS ───
+let taskCount = 0;
+function addTaskRow() {
+  taskCount++;
+  const n = taskCount;
+  const div = document.createElement('div');
+  div.className = 'table-row';
+  div.id = `task-${n}`;
+  div.innerHTML = `
+    <div class="row-num">${n}</div>
+    <div class="field" style="margin:0;margin-top:8px">
+      <label>รายละเอียดงาน</label>
+      <textarea id="t-desc-${n}" placeholder="งานที่มอบหมาย..." style="min-height:60px"></textarea>
+    </div>
+    <div class="field" style="margin:0">
+      <label>ผลการดำเนินงาน</label>
+      <textarea id="t-result-${n}" placeholder="ผลที่ได้..." style="min-height:60px"></textarea>
+    </div>
+    <div class="field" style="margin:0">
+      <label>สถานะ</label>
+      ${statusOptions(taskStatuses, `t-status-${n}`)}
+    </div>
+    <button class="del-btn" onclick="this.parentElement.remove()">✕</button>`;
+  document.getElementById('tasks-container').appendChild(div);
+}
+
+// ─── PARTS ───
+let partCount = 0;
+function addPartRow() {
+  partCount++;
+  const n = partCount;
+  const div = document.createElement('div');
+  div.className = 'table-row';
+  div.id = `part-${n}`;
+  div.innerHTML = `
+    <div class="row-num">${n}</div>
+    <div class="row" style="margin-top:8px;margin-bottom:0">
+      <div class="field" style="margin:0">
+        <label>ชื่ออะไหล่</label>
+        <input type="text" id="p-name-${n}" placeholder="ชื่ออะไหล่..." />
+      </div>
+      <div class="field" style="margin:0">
+        <label>Part No. / Code</label>
+        <input type="text" id="p-code-${n}" placeholder="รหัส..." />
+      </div>
+    </div>
+    <div class="row" style="margin-bottom:0">
+      <div class="field" style="margin:0">
+        <label>จำนวนที่ใช้</label>
+        <input type="text" id="p-used-${n}" placeholder="0" />
+      </div>
+      <div class="field" style="margin:0">
+        <label>สถานะสต็อก</label>
+        ${statusOptions(stockStatuses, `p-status-${n}`)}
+      </div>
+    </div>
+    <button class="del-btn" onclick="this.parentElement.remove()">✕</button>`;
+  document.getElementById('parts-container').appendChild(div);
+}
+
+// Pre-populate 1 row each
+addFaultRow();
+addTaskRow();
+addPartRow();
+
+// ─── Collect form data into text ───
+function buildText() {
+  const dateVal = document.getElementById('date').value;
+  const [y,m,d] = dateVal ? dateVal.split('-') : ['____','__','__'];
+  const shift = document.querySelector('input[name="shift"]:checked')?.value || '___';
+  const dept  = document.querySelector('input[name="dept"]:checked')?.value  || '___';
+  const out = document.getElementById('outgoing').value || '___';
+
+  let lines = [];
+  lines.push('⚙️ แบบฟอร์มส่งงานต่อกะ – วิศวกรรม');
+  lines.push(`📅 วันที่: ${d}/${m}/${y}    กะ: ${shift}    แผนก: ${dept}`);
+  lines.push(`👤 ผู้ส่งกะ: ${out}`);
+  lines.push('');
+
+  // Faults / Handover Summary
+  const fRows = document.querySelectorAll('[id^="fault-"]');
+  if (fRows.length) {
+    lines.push('━━━ 📝 สรุปงานส่งต่อกะ ━━━');
+    fRows.forEach((row, i) => {
+      const n = row.id.split('-')[1];
+      const sym = document.getElementById(`f-symptom-${n}`)?.value.trim();
+      const act = document.getElementById(`f-action-${n}`)?.value.trim();
+      const sta = document.getElementById(`f-status-${n}`)?.value;
+      if(sym||act) {
+        lines.push(`${i+1}. อาการ: ${sym||'-'}`);
+        lines.push(`   แก้ไข: ${act||'-'}  [${sta}]`);
+      }
+    });
+    lines.push('');
   }
 
-  /* tasks */
-  var tc = document.querySelectorAll('[id^="task-"]');
-  var tRows = [];
-  tc.forEach(function(r){
-    var n=r.id.split('-')[1];
-    var de=((document.getElementById('td-'+n)||{}).value||'').trim();
-    var re=((document.getElementById('tr-'+n)||{}).value||'').trim();
-    if(de||re) tRows.push({de:de,re:re,st:getStatVal('tsg-'+n),cls:getStatCls('tsg-'+n)});
-  });
-  if(tRows.length){
-    html+='<div class="sc-section"><div class="sc-sec-hdr">🌙 งานที่ได้รับมอบหมาย</div>';
-    tRows.forEach(function(r,i){
-      html+='<div class="sc-row">';
-      html+='<span class="sc-row-num">'+(i+1)+'</span>';
-      html+='<div style="margin-top:6px"><div class="sc-label">รายละเอียดงาน</div><div class="sc-value">'+(r.de||'—')+'</div></div>';
-      html+='<div style="margin-top:6px"><div class="sc-label">ผลการดำเนินงาน</div><div class="sc-value">'+(r.re||'—')+'</div></div>';
-      html+='<div style="margin-top:6px"><span class="sc-badge '+r.cls+'">'+r.st+'</span></div>';
-      html+='</div>';
+  // Tasks
+  const tRows = document.querySelectorAll('[id^="task-"]');
+  if (tRows.length) {
+    lines.push('━━━ 🌙 งานที่ได้รับมอบหมาย ━━━');
+    tRows.forEach((row, i) => {
+      const n = row.id.split('-')[1];
+      const desc   = document.getElementById(`t-desc-${n}`)?.value.trim();
+      const result = document.getElementById(`t-result-${n}`)?.value.trim();
+      const sta    = document.getElementById(`t-status-${n}`)?.value;
+      if(desc||result) {
+        lines.push(`${i+1}. งาน: ${desc||'-'}`);
+        lines.push(`   ผล: ${result||'-'}  [${sta}]`);
+      }
     });
-    html+='</div>';
+    lines.push('');
   }
 
-  /* parts */
-  var pc = document.querySelectorAll('[id^="part-"]');
-  var pRows = [];
-  pc.forEach(function(r){
-    var n=r.id.split('-')[1];
-    var nm=((document.getElementById('pn-'+n)||{}).value||'').trim();
-    var co=((document.getElementById('pc-'+n)||{}).value||'').trim();
-    var us=((document.getElementById('pu-'+n)||{}).value||'').trim();
-    if(nm) pRows.push({nm:nm,co:co,us:us,st:getStatVal('psg-'+n),cls:getStatCls('psg-'+n)});
-  });
-  if(pRows.length){
-    html+='<div class="sc-section"><div class="sc-sec-hdr">🔩 อะไหล่ที่ใช้ / ต้องเบิก</div>';
-    pRows.forEach(function(r,i){
-      html+='<div class="sc-row">';
-      html+='<span class="sc-row-num">'+(i+1)+'</span> ';
-      html+='<strong>'+r.nm+'</strong>';
-      if(r.co) html+=' <span style="color:#6b7d91;font-size:13px">('+r.co+')</span>';
-      html+='<div style="margin-top:4px;font-size:13px;color:#6b7d91">จำนวนที่ใช้: <strong style="color:#1e2a38">'+(r.us||'0')+'</strong></div>';
-      html+='<div style="margin-top:4px"><span class="sc-badge '+r.cls+'">'+r.st+'</span></div>';
-      html+='</div>';
+  // Parts
+  const pRows = document.querySelectorAll('[id^="part-"]');
+  if (pRows.length) {
+    lines.push('━━━ 🔩 อะไหล่ที่ใช้ / ต้องเบิก ━━━');
+    pRows.forEach((row, i) => {
+      const n    = row.id.split('-')[1];
+      const name = document.getElementById(`p-name-${n}`)?.value.trim();
+      const code = document.getElementById(`p-code-${n}`)?.value.trim();
+      const used = document.getElementById(`p-used-${n}`)?.value.trim();
+      const sta  = document.getElementById(`p-status-${n}`)?.value;
+      if(name) {
+        lines.push(`${i+1}. ${name} (${code||'-'}) ใช้: ${used||'0'} [${sta}]`);
+      }
     });
-    html+='</div>';
   }
 
-  html+='<div class="sc-footer">สร้างเมื่อ '+dateStr+' | ฝ่ายวิศวกรรม</div>';
-  return html;
+  return lines.join('\n');
 }
 
-/* ── Generate image ── */
-function doImage() {
-  showToast('⏳ กำลังสร้างรูป...');
-  var card = document.getElementById('summary-card');
-  card.innerHTML = buildCard();
-  card.style.left = '-9999px';
-  card.style.display = 'block';
+// ─── Copy to clipboard ───
+function copyToClipboard() {
+  const text = buildText();
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('✅ คัดลอกข้อความแล้ว! วางในไลน์ได้เลย');
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('✅ คัดลอกข้อความแล้ว!');
+  });
+}
 
-  setTimeout(function(){
+// ─── Save as Image ───
+function saveAsImage() {
+  const data = collectData();
+  if (!data.date && !data.shift && !data.dept) {
+    showToast('⚠️ กรุณากรอกข้อมูลก่อนบันทึกรูป');
+    return;
+  }
+
+  // Build summary card HTML
+  const card = document.createElement('div');
+  card.id = 'export-card';
+  card.style.cssText = `
+    position:fixed; left:-9999px; top:0;
+    width:600px; background:#f4f6f9;
+    font-family:'Sarabun',sans-serif; padding:0; margin:0;
+  `;
+
+  let faultRows = '', taskRows = '', partRows = '';
+
+  data.faults.forEach((f,i) => {
+    if(!f.symptom && !f.action) return;
+    const badge = {
+      'กำลังดำเนินการ':'#f39c12','แก้ไขแล้ว':'#27ae60',
+      'รอชิ้นส่วน':'#e67e22','ส่งต่อกะถัดไป':'#e74c3c'
+    }[f.status]||'#7f8c8d';
+    faultRows += `
+      <div style="background:#fff;border-radius:10px;padding:12px 14px;margin-bottom:10px;border-left:4px solid #f0a500;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+          <div style="flex:1">
+            <div style="font-size:13px;color:#6b7d91;margin-bottom:2px;">รายการที่ ${i+1}</div>
+            <div style="font-weight:600;font-size:15px;color:#1e2a38;margin-bottom:4px;">${f.symptom||'-'}</div>
+            <div style="font-size:13.5px;color:#4a5568;">▸ ${f.action||'-'}</div>
+          </div>
+          <div style="background:${badge};color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;">${f.status}</div>
+        </div>
+      </div>`;
+  });
+
+  data.tasks.forEach((t,i) => {
+    if(!t.desc && !t.result) return;
+    const badge = {
+      'เสร็จสมบูรณ์':'#27ae60','กำลังดำเนินการ':'#f39c12',
+      'ยังไม่เริ่ม':'#95a5a6','ส่งต่อกะถัดไป':'#e74c3c'
+    }[t.status]||'#7f8c8d';
+    taskRows += `
+      <div style="background:#fff;border-radius:10px;padding:12px 14px;margin-bottom:10px;border-left:4px solid #1a3a5c;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+          <div style="flex:1">
+            <div style="font-size:13px;color:#6b7d91;margin-bottom:2px;">งานที่ ${i+1}</div>
+            <div style="font-weight:600;font-size:15px;color:#1e2a38;margin-bottom:4px;">${t.desc||'-'}</div>
+            <div style="font-size:13.5px;color:#4a5568;">▸ ${t.result||'-'}</div>
+          </div>
+          <div style="background:${badge};color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;">${t.status}</div>
+        </div>
+      </div>`;
+  });
+
+  data.parts.forEach((p,i) => {
+    if(!p.name) return;
+    const badge = {
+      'เพียงพอ':'#27ae60','ใกล้หมด':'#f39c12','หมด / ต้องเบิก':'#e74c3c'
+    }[p.status]||'#7f8c8d';
+    partRows += `
+      <div style="background:#fff;border-radius:10px;padding:10px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;border-left:4px solid #7c3aed;">
+        <div>
+          <div style="font-weight:600;font-size:14.5px;color:#1e2a38;">${p.name}</div>
+          <div style="font-size:12.5px;color:#6b7d91;">${p.code?'Code: '+p.code:''} ${p.used?'| ใช้: '+p.used+' ชิ้น':''}</div>
+        </div>
+        <div style="background:${badge};color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap;">${p.status}</div>
+      </div>`;
+  });
+
+  const dateVal = data.date;
+  const [y,m,d] = dateVal ? dateVal.split('-') : ['____','__','__'];
+  const now = new Date();
+  const printTime = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')} น.`;
+
+  card.innerHTML = `
+    <!-- Header -->
+    <div style="background:#1a3a5c;padding:20px 24px 16px;color:#fff;">
+      <div style="font-size:20px;font-weight:700;margin-bottom:4px;">⚙️ สรุปการส่งงานต่อกะ</div>
+      <div style="font-size:13px;opacity:0.75;">Engineering Shift Handover Report</div>
+    </div>
+    <!-- Info bar -->
+    <div style="background:#f0a500;padding:12px 24px;display:flex;gap:24px;flex-wrap:wrap;">
+      <div style="color:#fff;">
+        <div style="font-size:11px;opacity:0.85;font-weight:600;">📅 วันที่</div>
+        <div style="font-size:15px;font-weight:700;">${d}/${m}/${y}</div>
+      </div>
+      <div style="color:#fff;">
+        <div style="font-size:11px;opacity:0.85;font-weight:600;">🔄 กะ</div>
+        <div style="font-size:15px;font-weight:700;">${data.shift||'-'}</div>
+      </div>
+      <div style="color:#fff;">
+        <div style="font-size:11px;opacity:0.85;font-weight:600;">🏭 แผนก</div>
+        <div style="font-size:15px;font-weight:700;">${data.dept||'-'}</div>
+      </div>
+      <div style="color:#fff;margin-left:auto;">
+        <div style="font-size:11px;opacity:0.85;font-weight:600;">👤 ผู้ส่งกะ</div>
+        <div style="font-size:15px;font-weight:700;">${data.outgoing||'-'}</div>
+      </div>
+    </div>
+    <!-- Body -->
+    <div style="padding:18px 20px;">
+      ${faultRows ? `
+        <div style="margin-bottom:16px;">
+          <div style="font-size:14px;font-weight:700;color:#1a3a5c;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #d0dae6;">
+            📝 สรุปงานส่งต่อกะ (Handover Summary)
+          </div>
+          ${faultRows}
+        </div>` : ''}
+      ${taskRows ? `
+        <div style="margin-bottom:16px;">
+          <div style="font-size:14px;font-weight:700;color:#1a3a5c;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #d0dae6;">
+            🌙 งานที่ได้รับมอบหมาย (Work Assignments)
+          </div>
+          ${taskRows}
+        </div>` : ''}
+      ${partRows ? `
+        <div style="margin-bottom:16px;">
+          <div style="font-size:14px;font-weight:700;color:#1a3a5c;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #d0dae6;">
+            🔩 อะไหล่ที่ใช้ / ต้องเบิก (Spare Parts)
+          </div>
+          ${partRows}
+        </div>` : ''}
+    </div>
+    <!-- Footer -->
+    <div style="background:#1a3a5c;padding:10px 24px;text-align:center;color:rgba(255,255,255,0.6);font-size:11.5px;">
+      บันทึกเมื่อ ${printTime} · ฝ่ายวิศวกรรม
+    </div>
+  `;
+
+  document.body.appendChild(card);
+
+  // Load html2canvas then capture
+  const script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+  script.onload = () => {
+    showToast('⏳ กำลังสร้างรูป...');
     html2canvas(card, {
       scale: 2,
       useCORS: true,
       backgroundColor: '#f4f6f9',
       logging: false
-    }).then(function(canvas){
-      var imgData = canvas.toDataURL('image/png');
-      document.getElementById('preview-img').src = imgData;
-      document.getElementById('img-overlay').classList.add('show');
-      card.style.display = 'none';
-    }).catch(function(){
-      showToast('⚠️ ไม่สามารถสร้างรูปได้');
-      card.style.display = 'none';
+    }).then(canvas => {
+      document.body.removeChild(card);
+      const link = document.createElement('a');
+      const fname = `handover_${data.dept||'eng'}_${d||'00'}${m||'00'}${y||'0000'}.png`.replace(/[^a-zA-Z0-9_.-ก-๙]/g,'_');
+      link.download = fname;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showToast('✅ บันทึกรูปเรียบร้อยแล้ว!');
+    }).catch(() => {
+      document.body.removeChild(card);
+      showToast('❌ เกิดข้อผิดพลาด กรุณาลองใหม่');
     });
-  }, 200);
+  };
+  script.onerror = () => {
+    document.body.removeChild(card);
+    showToast('❌ โหลด library ไม่สำเร็จ');
+  };
+  document.head.appendChild(script);
 }
 
-function closeOverlay() {
-  document.getElementById('img-overlay').classList.remove('show');
+// ─── Collect form data ───
+function collectData() {
+  const dateVal = document.getElementById('date').value;
+  const shift = document.querySelector('input[name="shift"]:checked')?.value || '';
+  const dept  = document.querySelector('input[name="dept"]:checked')?.value  || '';
+  const outgoing = document.getElementById('outgoing').value || '';
+
+  const faults = [];
+  document.querySelectorAll('[id^="fault-"]').forEach(row => {
+    const n = row.id.split('-')[1];
+    faults.push({
+      symptom: document.getElementById(`f-symptom-${n}`)?.value.trim()||'',
+      action:  document.getElementById(`f-action-${n}`)?.value.trim()||'',
+      status:  document.getElementById(`f-status-${n}`)?.value||''
+    });
+  });
+
+  const tasks = [];
+  document.querySelectorAll('[id^="task-"]').forEach(row => {
+    const n = row.id.split('-')[1];
+    tasks.push({
+      desc:   document.getElementById(`t-desc-${n}`)?.value.trim()||'',
+      result: document.getElementById(`t-result-${n}`)?.value.trim()||'',
+      status: document.getElementById(`t-status-${n}`)?.value||''
+    });
+  });
+
+  const parts = [];
+  document.querySelectorAll('[id^="part-"]').forEach(row => {
+    const n = row.id.split('-')[1];
+    parts.push({
+      name:   document.getElementById(`p-name-${n}`)?.value.trim()||'',
+      code:   document.getElementById(`p-code-${n}`)?.value.trim()||'',
+      used:   document.getElementById(`p-used-${n}`)?.value.trim()||'',
+      status: document.getElementById(`p-status-${n}`)?.value||''
+    });
+  });
+
+  return { date: dateVal, shift, dept, outgoing, faults, tasks, parts };
 }
 
-/* ── Text / LINE ── */
-function buildText(){
-  var lines=[];
-  lines.push('⚙️ แบบฟอร์มส่งงานต่อกะ – วิศวกรรม');
-  lines.push('📅 วันที่: '+DS.d+' '+TH_MON[DS.m-1]+' '+DS.y+'   กะ: '+(selShift||'___')+'   แผนก: '+(selDept||'___'));
-  lines.push('👤 ผู้ส่งกะ: '+(selStaff||'___'));
-  lines.push('');
-  var fc=document.querySelectorAll('[id^="fault-"]');
-  if(fc.length){
-    lines.push('━━━ 📝 สรุปงานส่งต่อกะ ━━━');
-    fc.forEach(function(r,i){var n=r.id.split('-')[1];var sy=((document.getElementById('fs-'+n)||{}).value||'').trim();var ac=((document.getElementById('fa-'+n)||{}).value||'').trim();var st=getStatVal('fsg-'+n);if(sy||ac){lines.push((i+1)+'. อาการ: '+(sy||'-'));lines.push('   แก้ไข: '+(ac||'-')+'  ['+st+']');}});
-    lines.push('');
-  }
-  var tc=document.querySelectorAll('[id^="task-"]');
-  if(tc.length){
-    lines.push('━━━ 🌙 งานที่ได้รับมอบหมาย ━━━');
-    tc.forEach(function(r,i){var n=r.id.split('-')[1];var de=((document.getElementById('td-'+n)||{}).value||'').trim();var re=((document.getElementById('tr-'+n)||{}).value||'').trim();var st=getStatVal('tsg-'+n);if(de||re){lines.push((i+1)+'. งาน: '+(de||'-'));lines.push('   ผล: '+(re||'-')+'  ['+st+']');}});
-    lines.push('');
-  }
-  var pc=document.querySelectorAll('[id^="part-"]');
-  if(pc.length){
-    lines.push('━━━ 🔩 อะไหล่ที่ใช้ / ต้องเบิก ━━━');
-    pc.forEach(function(r,i){var n=r.id.split('-')[1];var nm=((document.getElementById('pn-'+n)||{}).value||'').trim();var co=((document.getElementById('pc-'+n)||{}).value||'').trim();var us=((document.getElementById('pu-'+n)||{}).value||'').trim();var st=getStatVal('psg-'+n);if(nm){lines.push((i+1)+'. '+nm+' ('+(co||'-')+') ใช้: '+(us||'0')+' ['+st+']');}});
-  }
-  return lines.join('\n');
-}
-function doCopy(){
-  var txt=buildText();
-  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){showToast('✅ คัดลอกแล้ว!');}).catch(function(){fallbackCopy(txt);});}else{fallbackCopy(txt);}
-}
-function fallbackCopy(txt){
-  var ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;top:0;left:0;opacity:0;';document.body.appendChild(ta);ta.focus();ta.select();
-  try{document.execCommand('copy');showToast('✅ คัดลอกแล้ว!');}catch(e){showToast('⚠️ กรุณาคัดลอกด้วยตนเอง');}
-  document.body.removeChild(ta);
-}
-
-function showToast(msg){
-  var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
-  setTimeout(function(){t.classList.remove('show');},2800);
+// ─── Toast ───
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
 }
 </script>
 </body>
