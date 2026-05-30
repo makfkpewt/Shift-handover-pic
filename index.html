@@ -259,11 +259,11 @@
     gap: 8px;
     transition: all 0.2s;
   }
-  .btn-copy {
-    background: var(--primary);
+  .btn-reset {
+    background: #64748b;
     color: #fff;
   }
-  .btn-copy:active { opacity: 0.85; }
+  .btn-reset:active { opacity: 0.85; }
   .btn-img {
     background: #7c3aed;
     color: #fff;
@@ -385,7 +385,7 @@
 
 <!-- Action bar -->
 <div class="action-bar">
-  <button class="btn-share btn-copy" onclick="copyToClipboard()">📋 คัดลอกข้อความ</button>
+  <button class="btn-share btn-reset" onclick="resetForm()">🔄 เริ่มใหม่</button>
   <button class="btn-share btn-img" onclick="saveAsImage()">🖼️ บันทึกรูป</button>
 </div>
 
@@ -399,9 +399,8 @@ document.getElementById('date').value = new Date().toISOString().split('T')[0];
 // ─── Staff per department ───
 const deptStaff = {
   'ไฟฟ้า': [
-    'นายเจนณรงค์ มากประยูร','นายสัจจาพันธ์ ทุนโคกกรวด','นายภูมิพิพัฒน์ มีคุณ',
-    'นายสำราญ สายเพ็ชร','นายวันชัย เคนรัง',
-    'นายกำพล ณ น่าน','นายรัฏฐกรณ์ ลมดี'
+    'นายเจนณรงค์ มากประยูร','นายสัจจาพันธ์ ทุนโคกกรวด','นายภูมิพิพัฒน์ มีคุณ','นายสำราญ สายเพ็ชร',
+    'นายกำพล ณ น่าน','นายรัฏฐกรณ์ ลมดี','นายวันชัย เคนรัง'
   ],
   'เครื่องกลส่วนกลาง': [
     'นายอุรุพงศ์ ขาวเขียว','นายวีระศักดิ์ รุ่งเรือง','นายวัฒนา เจริญทอง',
@@ -409,8 +408,7 @@ const deptStaff = {
     'นายพรชัย เพ็งศรี','เจษฎา ดวงมาศ'
   ],
   'เครื่องกล(สร้างโครง)': [
-    'นายนิโรจน์ พันธ์ศรี','นายณัฏฐนันท์ โพธิขวัญ',
-    'นายจันทกร โคตา',
+    'นายนิโรจน์ พันธ์ศรี','นายณัฏฐนันท์ โพธิขวัญ','นายจันทกร โคตา',
     'นายนที เปียเจีย','นายสายฝน พงษ์ภักดี','นายรณธิชัย ภาคภูมิ',
     'นายอาณัติ เขตขุม','นายณภัทร ศรีพรมมา','นายจักรินทร์ นามประยูร',
     'นายวิเชียร วิหคทอง','นางสาวดวงพร อินทร์พิทักษ์'
@@ -418,7 +416,7 @@ const deptStaff = {
   'เครื่องกล(เตานึ่งยาง)': [
     'นายพรชัย พินพงษ์','นายทศนัย พันธุบุศย์',
     'นายประมวลทรัพย์ แซ่อุ้ย','นายประจวบ โยนอก',
-    'นายสลักชัย ภู่สวัสดิ์', 'นายจักรกฤษ พิมแพง'
+    'นายสลักชัย ภู่สวัสดิ์','นายจักรกฤษ พิมแพง'
   ],
   'Facility': [
     'นายสาโรจน์ คำผุด','นายสามารถ เสริมจบก','นายเกียงไกร ทองแปรง',
@@ -608,23 +606,27 @@ function buildText() {
   return lines.join('\n');
 }
 
-// ─── Copy to clipboard ───
-function copyToClipboard() {
-  const text = buildText();
-  navigator.clipboard.writeText(text).then(() => {
-    showToast('✅ คัดลอกข้อความแล้ว! วางในไลน์ได้เลย');
-  }).catch(() => {
-    // Fallback
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    showToast('✅ คัดลอกข้อความแล้ว!');
-  });
+// ─── Reset Form ───
+function resetForm() {
+  if (!confirm('ล้างข้อมูลทั้งหมดและเริ่มใหม่?')) return;
+
+  // Reset basic fields
+  document.getElementById('date').value = new Date().toISOString().split('T')[0];
+  document.querySelector('input[name="shift"]:checked') && (document.querySelector('input[name="shift"]:checked').checked = false);
+  document.querySelector('input[name="dept"]:checked') && (document.querySelector('input[name="dept"]:checked').checked = false);
+  document.getElementById('outgoing').innerHTML = '<option value="">-- เลือกแผนกก่อน --</option>';
+
+  // Clear repeatable rows
+  document.getElementById('faults-container').innerHTML = '';
+  document.getElementById('tasks-container').innerHTML = '';
+  document.getElementById('parts-container').innerHTML = '';
+  faultCount = 0; taskCount = 0; partCount = 0;
+
+  // Add 1 empty row each
+  addFaultRow(); addTaskRow(); addPartRow();
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  showToast('✅ เริ่มใหม่เรียบร้อยแล้ว');
 }
 
 // ─── Save as Image ───
@@ -755,7 +757,7 @@ function saveAsImage() {
     </div>
     <!-- Footer -->
     <div style="background:#1a3a5c;padding:10px 24px;text-align:center;color:rgba(255,255,255,0.6);font-size:11.5px;">
-      บันทึกเมื่อ ${printTime} · ฝ่ายวิศวกรรม
+      บันทึกเมื่อ ${printTime} · Create ฝ่ายวิศวกรรม 🌼🌈🚀 Nak
     </div>
   `;
 
